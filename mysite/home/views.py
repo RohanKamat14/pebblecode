@@ -24,3 +24,9 @@ def login(request):
 
     }
     return HttpResponse(template.render(context, request))
+def Signup(request):
+    template = loader.get_template('Signup.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
