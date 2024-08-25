@@ -1,51 +1,50 @@
 <!DOCTYPE html>
-
+<html>
 <head>
     <title>Signup Page</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'Signup.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
-
 <body>
- <!--make a Signup form-->
-  <div class="container">
-  <div class="curved-shape"></div>
-    <div class="form-box Signup">
-      <h2>Signup</h2>
-      <form action="#">
-        <!--Username input-->
-        <div class="input-box">
-          <input type="text" required>
-          <label for="">Username</label>
-          <i class='bx bx-user-circle'></i>
+    <div class="container">
+        <div class="curved-shape"></div>
+        <div class="form-box Signup">
+            <h2>Signup</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <!-- Username input -->
+                <div class="input-box">
+                    {{ form.username }}
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    <i class='bx bx-user-circle'></i>
+                </div>
+                <!-- Password input -->
+                <div class="input-box">
+                    {{ form.password1 }}
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <!-- Confirm Password input -->
+                <div class="input-box">
+                    {{ form.password2 }}
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <!-- Signup Button -->
+                <div class="input-box">
+                    <button class="btn" type="submit">Create Account</button>
+                </div>
+                <!-- Login Link -->
+                <div class="register-link">
+                    <p>Already have an account? <a href="login" class="LoginInLink">Login</a></p>
+                </div>
+            </form>
         </div>
-        <!--Password Input-->
-        <div class="input-box">
-          <input type="text" required>
-          <label for="">Password</label>
-          <i class='bx bxs-lock-alt' ></i>
+        <div class="info-content">
+            <h2>WELCOME TO PEBBLE CODING</h2>
+            <p>Your developer journey starts here</p>
         </div>
-        <!--Gmail Input-->
-        <div class="input-box">
-          <input type="text" required>
-          <label for="">Gmail</label>
-          <i class='bx bxl-gmail'></i>
-        </div>
-        <!--Signup Button-->
-        <div class="input-box">
-          <button class="btn" type="submit">Create Account</button>
-        </div>
-        <!--Signup Button-->
-        <div class="register-link">
-          <p>Already have an account ? <a href="login" class="LoginInLink">Login</a></p>
-        </div>
-      </form>
     </div>
-    <div class="info-content">
-      <h2>WELCOME TO PEBBLE CODING</h2>
-      <p>Your developer journey starts here</p>
-    </div>
-  </div>
 </body>
-</html> 
+</html>
