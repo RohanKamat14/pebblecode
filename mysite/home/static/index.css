@@ -27,6 +27,12 @@
     ul.topnav li.right, 
     ul.topnav li {float: none;}
   } */
+  
+.carousel-item img {
+    object-fit: cover; /* Ensures the image covers the container while maintaining aspect ratio */
+    width: 100%;
+    height: 100%; /* Makes the image cover the full height of the carousel item */
+  }
 .test {
   animation: fadeInAnimation ease 3s;
   animation-iteration-count: 1;
