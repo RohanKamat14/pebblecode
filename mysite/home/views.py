@@ -3,7 +3,7 @@ from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, logout
 
 def index(request):
     template = loader.get_template('index.html')
@@ -41,3 +41,8 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, "login.html", {"form": form })
+    
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect("index")
