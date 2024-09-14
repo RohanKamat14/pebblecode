@@ -50,9 +50,10 @@
             </form>
         </li>
         </ul>
-        <form class="d-flex input-group w-auto">
-          <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-            aria-describedby="search-addon" />
+        <form class="d-flex input-group w-auto" method=POST action="{% url 'search_courses' %}">
+          {% csrf_token %}
+          <input type="search" class="form-control rounded" placeholder="Search Courses" aria-label="Search"
+            aria-describedby="search-addon" name="searched"/>
           <button class="btn light-text nav-btn mr-1 border-0 me-1 rounded" type="submit">Search</button>
         </form>
 
@@ -130,43 +131,13 @@
     </div>
   </div>
   </div>
-  <script>
-  var slideIndex = 1;
-  showDivs(slideIndex);
-  
-  function plusDivs(n) {
-    showDivs(slideIndex += n);
-  }
-  
-  function currentDiv(n) {
-    showDivs(slideIndex = n);
-  }
-  
-  function showDivs(n) {
-    var i;
-    var x = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("demo");
-    if (n > x.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = x.length}
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";  
-    }
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" w3-white", "");
-    }
-    x[slideIndex-1].style.display = "block";  
-    dots[slideIndex-1].className += " w3-white";
-  }
-  </script>
-  
-  <!--end of infinite loop Slideshow-->
 
   <!-- Courses Offered Page -->
   <h1 class="container-secondary light-text text-center p-2 display-5 rounded mx-auto "
     >Most
     Popular</h1>
 
-  <div class="container p-2 rounded mt-5"">
+  <div class="container p-2 rounded mt-5">
 
     <div class=" row">
     <div class="col m-1 p-3 rounded ">

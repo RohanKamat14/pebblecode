@@ -46,3 +46,11 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
         return redirect("index")
+    
+def search_courses(request):
+    if request.method == "POST":
+        searched = request.POST["searched"]
+        #courses = Courses.objects.filter(name__contains=searched)
+        return render(request, 'search_courses.html', {'searched':searched})
+    else:
+        return render(request, 'search_courses.html', {})
