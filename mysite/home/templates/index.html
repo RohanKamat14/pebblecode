@@ -18,7 +18,7 @@
   <nav class="navbar navbar-expand-lg sticky-top border-bottom border-dark">
 
     <div class="container-fluid">
-      <a class="navbar-brand" href=" ">Pebble Code</a>
+      <a class="navbar-brand light-text" href="">Pebble Code</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
           <li class="nav-item">
             <form class="logout" action="{% url 'logout' %}" method="post"> 
                 {% csrf_token %}
-                <button style="background-color: #0B0C10;" class="btn btn-outline-light my-2 my-sm-0 border-0 me-1" type="submit">Logout</button>
+                <button class="btn btn-outline-light my-2 my-sm-0 border-0 me-1" type="submit">Logout</button>
             </form>
         </li>
         </ul>
@@ -56,9 +56,15 @@
           <button class="btn light-text nav-btn mr-1 border-0 me-1 rounded" type="submit">Search</button>
         </form>
 
-        <button class="btn light-text my-2 nav-btn my-sm-0 border-0 me-1"
-          type="submit"><a href="{% url 'login' %}"> Login</a> </button>
-        <button class="btn light-text my-2 nav-btn my-sm-0 border-0 me-1" type="submit">  <a href="{% url 'Signup' %}">Sign Up</a></button>
+        <form action="{% url 'login' %}">
+          <button class="btn light-text my-2 nav-btn my-sm-0 border-0 me-1"
+          type="submit"> Login </button>
+        </form>
+
+        <form action="{% url 'Signup' %}">
+          <button class="btn light-text my-2 nav-btn my-sm-0 border-0 me-1" type="submit">  Sign Up</button>
+        </form>
+        
       </div>
 
     </div>
