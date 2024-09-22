@@ -3,9 +3,9 @@ body{
   }
   :root {
     --dark-primary: #222831;
-        --light-primary: #393e46;
-        --dark-text: #00adb5;
-        --light-text: #EEEEEE;
+    --light-primary: #393e46;
+    --dark-text: #00adb5;
+    --light-text: #EEEEEE;
   }
   
   nav {
