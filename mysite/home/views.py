@@ -12,13 +12,6 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def courses(request):
-    template = loader.get_template('courses.html')
-    context = {
-
-    }
-    return HttpResponse(template.render(context, request))
-
 def Signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -46,3 +39,10 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
         return redirect("index")
+    
+def courses_view(request):
+    template = loader.get_template('courses.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
