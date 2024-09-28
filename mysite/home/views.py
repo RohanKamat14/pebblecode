@@ -4,6 +4,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout
+from .models import Product
 
 def index(request):
     template = loader.get_template('index.html')
@@ -50,7 +51,7 @@ def logout_view(request):
 def search_courses(request):
     if request.method == "POST":
         searched = request.POST["searched"]
-        #courses = Courses.objects.filter(name__contains=searched)
-        return render(request, 'search_courses.html', {'searched':searched})
+        courses = Product.objects.filter(name__contains=searched)
+        return render(request, 'search_courses.html', {'searched':searched, 'courses' : courses})
     else:
         return render(request, 'search_courses.html', {})
