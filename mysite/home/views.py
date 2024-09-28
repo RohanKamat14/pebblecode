@@ -13,13 +13,6 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def courses(request):
-    template = loader.get_template('courses.html')
-    context = {
-
-    }
-    return HttpResponse(template.render(context, request))
-
 def Signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -55,3 +48,9 @@ def search_courses(request):
         return render(request, 'search_courses.html', {'searched':searched, 'courses' : courses})
     else:
         return render(request, 'search_courses.html', {})
+def courses_view(request):
+    template = loader.get_template('courses.html')
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
