@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+}
+
+
+.card-icon {
+    margin: 0 len;
+  }
+  .card-icon i {
+    font-size: 3em;
+  }
+  .card {
+    background-color: var(--light-primary);
+    color: white;
+    padding: 3em 0;
+    border: 0;
+    border-radius: 4em 0;
+    background: linear-gradient(to left, var(--light-primary) 50%, #EF3054 50%);
+    background-size: 200%;
+    background-position: right;
+    transition: all 0.5s;
+  }
+  .card:hover {
+    background-position: left;
+    box-shadow: 5px 5px;
+  }
+  .card-top {
+    background-color: var(--dark-text);
+  }
