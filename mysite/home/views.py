@@ -48,9 +48,12 @@ def search_courses(request):
         return render(request, 'search_courses.html', {'searched':searched, 'courses' : courses})
     else:
         return render(request, 'search_courses.html', {})
-def courses_view(request):
-    template = loader.get_template('courses.html')
-    context = {
+    
 
-    }
-    return HttpResponse(template.render(context, request))
+def courses_view(request):
+    courses_list = Product.objects.all()
+    return render(request, 'courses.html', {'courses_list':courses_list})
+
+def show_courses(request, courses_id):
+    courses = Product.objects.get(pk=courses_id)
+    return render(request, 'show_courses.html', {'courses':courses})

@@ -50,10 +50,12 @@
                 <button class="btn my-2 my-sm-0 border-0 me-1 " type="submit" style="color: #EEEEEE;">Logout</button>
             </form>
         </li>
+
         </ul>
-        <form class="d-flex input-group w-auto">
+        <form class="d-flex input-group w-auto" method="post" action="{% url 'search_courses' %}">
+          {% csrf_token %}
           <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-            aria-describedby="search-addon" />
+            aria-describedby="search-addon" name="searched"/>
           <button class="btn nav-btn mr-1 border-0 me-1 rounded" type="submit" style="color: #EEEEEE;">Search</button>
         </form>
 
