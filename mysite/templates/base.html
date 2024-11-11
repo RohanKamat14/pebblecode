@@ -40,9 +40,9 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Beginner</a></li>
-              <li><a class="dropdown-item" href="#">Intermediate</a></li>
-              <li><a class="dropdown-item" href="#">Advanced</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Beginner' %}">Beginner</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Intermediate' %}">Intermediate</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Advanced' %}">Advanced</a></li>
               <li><a class="dropdown-item" href="{% url 'my_courses' %}">My Courses</a></li>
             </ul>
           </li>

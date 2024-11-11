@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
-from .models import Product
+from .models import Product, Category
 from .forms import SignupUserForm
 from .cart import Cart
 from django.http import JsonResponse
@@ -63,6 +63,17 @@ def courses_view(request):
 def show_courses(request, courses_id):   
     courses = Product.objects.get(pk=courses_id)
     return render(request, 'show_courses.html', {'courses':courses})
+
+def category(request, cat):
+    cat = cat.replace('-', ' ')
+    # Grab the category from the url
+    try:
+        category = Category.objects.get(name=cat)
+        courses = Product.objects.filter(category=category)
+        return render(request, 'category.html', {'courses_list':courses,  'category':category})
+    except:
+        messages.success(request, ("That category dosn't exist"))
+        return redirect('index')
 
 def my_courses(request):
     cart = Cart(request)
