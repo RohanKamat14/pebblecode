@@ -13,38 +13,66 @@
             <h2>Signup</h2>
             <form action="" method="post">
                 {% csrf_token %}
+
+                <!-- first_name input -->
+                <div class="input-box">
+                    {{ form.first_name }}
+                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                    <i class='bx bx-user-circle'></i>
+                </div>
+
+                <!-- last_name input -->
+                <div class="input-box">
+                    {{ form.last_name }}
+                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                    <i class='bx bx-user-circle'></i>
+                </div>
+
                 <!-- Username input -->
                 <div class="input-box">
                     {{ form.username }}
                     <label for="{{ form.username.id_for_label }}">Username</label>
                     <i class='bx bx-user-circle'></i>
                 </div>
+
+                <!-- email input -->
+                <div class="input-box">
+                    {{ form.email }}
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    <i class='bx bx-user-circle'></i>
+                </div>
+
                 <!-- Password input -->
                 <div class="input-box">
                     {{ form.password1 }}
                     <label for="{{ form.password1.id_for_label }}">Password</label>
                     <i class='bx bxs-lock-alt'></i>
                 </div>
+
                 <!-- Confirm Password input -->
                 <div class="input-box">
                     {{ form.password2 }}
                     <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
                     <i class='bx bxs-lock-alt'></i>
                 </div>
+
                 <!-- Signup Button -->
                 <div class="input-box">
                     <button class="btn" type="submit">Create Account</button>
                 </div>
+
                 <!-- Login Link -->
                 <div class="register-link">
                     <p>Already have an account? <a href="login" class="LoginInLink">Login</a></p>
                 </div>
             </form>
         </div>
+
         <div class="info-content">
             <h2>WELCOME TO PEBBLE CODING</h2>
             <p>Your developer journey starts here</p>
         </div>
+        
     </div>
 </body>
 </html>
