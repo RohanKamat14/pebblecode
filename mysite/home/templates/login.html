@@ -1,40 +1,55 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>User Login</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/Signup.css' %}">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="curved-shape"></div>
         <div class="form-box Signup">
             <h2>Login</h2>
+            
+            <!-- Display Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
             <form action="" method="post">
                 {% csrf_token %}
+                
                 <!-- Username input -->
                 <div class="input-box">
                     {{ form.username }}
                     <label for="{{ form.username.id_for_label }}">Username</label>
-                    <i class='bx bx-user-circle'></i>
+                    <i class="bx bx-user-circle"></i>
                 </div>
+                
                 <!-- Password input -->
                 <div class="input-box">
                     {{ form.password }}
                     <label for="{{ form.password.id_for_label }}">Password</label>
-                    <i class='bx bxs-lock-alt'></i>
+                    <i class="bx bxs-lock-alt"></i>
                 </div>
-                <!-- lolgin Button -->
+
+                <!-- Login Button -->
                 <div class="input-box">
-                    <button class="btn" type="submit">Submit</button>
+                    <button class="btn" type="submit">Login</button>
                 </div>
+
                 <!-- Signup Link -->
                 <div class="register-link">
-                    <p>Don't have an account? <a href="Signup" class="LoginInLink">Signup</a></p>
+                    <p>Don't have an account? <a href="{% url 'Signup' %}" class="LoginInLink">Signup</a></p>
                 </div>
+
             </form>
         </div>
+        
         <div class="info-content">
             <h2>WELCOME BACK TO PEBBLE CODING!</h2>
             <p>Your developer journey continues here</p>

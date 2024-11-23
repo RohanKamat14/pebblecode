@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
 </head>
 
 <body class="container-primary">
@@ -19,7 +20,7 @@
   <nav class="navbar navbar-expand-lg sticky-top border-bottom border-dark">
 
     <div class="container-fluid">
-      <a class="navbar-brand light-text" href="">Pebble Code</a>
+      <a class="navbar-brand light-text" href="{% url 'index' %}">Pebble Code</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -39,9 +40,10 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Beginner</a></li>
-              <li><a class="dropdown-item" href="#">Intermediate</a></li>
-              <li><a class="dropdown-item" href="#">Advanced</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Beginner' %}">Beginner</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Intermediate' %}">Intermediate</a></li>
+              <li><a class="dropdown-item" href="{% url 'category' 'Advanced' %}">Advanced</a></li>
+              <li><a class="dropdown-item" href="{% url 'my_courses' %}">My Courses</a></li>
             </ul>
           </li>
           <li class="nav-item">

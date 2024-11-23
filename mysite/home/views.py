@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login as auth_login, logout
-from .models import Product
+from django.contrib.auth import login as auth_login, logout, authenticate
+from django.contrib import messages
+from .models import Product, Category
+from .forms import SignupUserForm
+from .cart import Cart
+from django.http import JsonResponse
 
 def index(request):
     template = loader.get_template('index.html')
@@ -13,28 +17,31 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def Signup(request):
+def Signup(request): 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignupUserForm(request.POST)
         if form.is_valid():
             auth_login(request, form.save())
             return redirect("index")  
     else:
-        form = UserCreationForm()  
+        form = SignupUserForm() 
 
-    # Render the template with the form
     return render(request, "Signup.html", {"form": form })
 
 def login_view(request):
     if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            #Login here
-            auth_login(request, form.get_user())
-            return redirect("index")
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('index')
+        else:
+            messages.success(request, ("There Was An Error Logging In, Try Again..."))
+            return redirect('login')
     else:
         form = AuthenticationForm()
-    return render(request, "login.html", {"form": form })
+        return render(request, "login.html", {"form": form })
     
 def logout_view(request):
     if request.method == "POST":
@@ -49,11 +56,46 @@ def search_courses(request):
     else:
         return render(request, 'search_courses.html', {})
     
-
 def courses_view(request):
     courses_list = Product.objects.all()
     return render(request, 'courses.html', {'courses_list':courses_list})
 
-def show_courses(request, courses_id):
+def show_courses(request, courses_id):   
     courses = Product.objects.get(pk=courses_id)
     return render(request, 'show_courses.html', {'courses':courses})
+
+def category(request, cat):
+    cat = cat.replace('-', ' ')
+    # Grab the category from the url
+    try:
+        category = Category.objects.get(name=cat)
+        courses = Product.objects.filter(category=category)
+        return render(request, 'category.html', {'courses_list':courses,  'category':category})
+    except:
+        messages.success(request, ("That category dosn't exist"))
+        return redirect('index')
+
+def my_courses(request):
+    cart = Cart(request)
+    cart_products = cart.get_prods
+    return render(request, "my_courses.html", {"cart_products":cart_products})
+
+def my_add(request):
+    #get the cart
+    course = Cart(request)
+
+    if request.POST.get('action') == 'post':
+        product_id = int(request.POST.get('product_id'))
+        product = get_object_or_404(Product, id=product_id)
+        course.add(product=product)
+
+        course_quantity = len(course)
+
+        response = JsonResponse({'qty': course_quantity})
+        return response
+
+def my_delete():
+    pass
+
+def my_update():
+    pass

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+</head>
+
+<h1 class="text-center text-white">{{ category.name }}</h1> <!-- Centered and white text -->
+<div class="container">
+    <div class="row justify-content-center"> <!-- Added justify-content-center for even spacing -->
+        {% for course in courses_list %}
+        <div class="col-md-4 d-flex align-items-stretch my-3"> <!-- my-3 for vertical spacing between cards -->
+            <div class="card" style="width: 18rem; height: 24rem;">
+                <div class="card-top">
+                    <h5 class="card-header">Recommended</h5>
+                </div>
+                <div class="card-icon text-center">
+                    <i class="bi bi-circle"></i>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.name }}</h5>
+                    <p class="card-text">{{ course.description }}</p>
+                    <a href="{% url 'show_courses' course.id %}" class="btn border light-text stretched-link">{{ course.category }}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

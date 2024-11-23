@@ -12,5 +12,16 @@ urlpatterns = [
     #Courses URl's
     path("search_courses", views.search_courses, name = 'search_courses'),
     path("courses", views.courses_view, name = 'courses'),
-    path("show_courses/<courses_id>", views.show_courses, name='show_courses')
+    path("show_courses/<courses_id>", views.show_courses, name='show_courses'),
+
+    #Categories Urls
+    path('category/<str:cat>', views.category, name='category'),
+
+
+    #My Courses Url
+    path('my_courses', views.my_courses, name="my_courses" ),
+    path('add', views.my_add, name="my_add" ),
+    path('delete', views.my_delete, name="my_delete" ),
+    path('update', views.my_update, name="my_update" ),
+
 ]
