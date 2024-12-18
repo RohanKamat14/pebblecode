@@ -1,61 +1,59 @@
 from django.contrib import admin
-from .models import( 
+import nested_admin
+from .models import (
     Category, Customer, Product, Order, Course, Lesson, Page, Quiz, Question, Answer,
     Test, TestQuestion, TestAnswer
-    )
+)
 
+# Register non-nested models directly
 admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Product)
 admin.site.register(Order)
 
-class QuestionInline(admin.TabularInline):
-    model = Question
-    extra = 1
-
-
-class AnswerInline(admin.TabularInline):
+# Define the nested inlines
+class AnswerInline(nested_admin.NestedStackedInline):
     model = Answer
     extra = 1
 
+class QuestionInline(nested_admin.NestedStackedInline):
+    model = Question
+    inlines = [AnswerInline]
+    extra = 1
 
+class QuizInline(nested_admin.NestedStackedInline):
+    model = Quiz
+    inlines = [QuestionInline]
+    extra = 1
+
+class PageInline(nested_admin.NestedStackedInline):
+    model = Page
+    extra = 1
+
+# Admin for Course
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_at']
+
+# Admin for Lesson
+@admin.register(Lesson)
+class LessonAdmin(nested_admin.NestedModelAdmin):
+    list_display = ['title', 'course', 'order']
+    inlines = [PageInline, QuizInline]
+
+# Admin for Test-related models
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestion
     extra = 1
-
 
 class TestAnswerInline(admin.TabularInline):
     model = TestAnswer
     extra = 1
 
-
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'created_at']
-
-
-@admin.register(Lesson)
-class LessonAdmin(admin.ModelAdmin):
-    list_display = ['title', 'course', 'order']
-
-
-@admin.register(Quiz)
-class QuizAdmin(admin.ModelAdmin):
-    inlines = [QuestionInline]
-    list_display = ['title', 'lesson']
-
-
-@admin.register(Question)
-class QuestionAdmin(admin.ModelAdmin):
-    inlines = [AnswerInline]
-    list_display = ['text', 'quiz']
-
-
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
     inlines = [TestQuestionInline]
     list_display = ['title', 'course']
-
 
 @admin.register(TestQuestion)
 class TestQuestionAdmin(admin.ModelAdmin):
