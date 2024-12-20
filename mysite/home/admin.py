@@ -5,13 +5,11 @@ from .models import (
     Test, TestQuestion, TestAnswer
 )
 
-# Register non-nested models directly
 admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Product)
 admin.site.register(Order)
 
-# Define the nested inlines
 class AnswerInline(nested_admin.NestedStackedInline):
     model = Answer
     extra = 1
@@ -30,18 +28,15 @@ class PageInline(nested_admin.NestedStackedInline):
     model = Page
     extra = 1
 
-# Admin for Course
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['name', 'created_at']
 
-# Admin for Lesson
 @admin.register(Lesson)
 class LessonAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title', 'course', 'order']
     inlines = [PageInline, QuizInline]
 
-# Admin for Test-related models
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestion
     extra = 1

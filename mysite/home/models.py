@@ -54,7 +54,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, related_name='lessons', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     preview_text = models.CharField(max_length=500)
-    video = models.FileField(upload_to='videos/')
+    video = models.FileField(blank=True, upload_to='videos/')
     order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -64,6 +64,7 @@ class Lesson(models.Model):
 class Page(models.Model):
     lesson = models.ForeignKey(Lesson, related_name='pages', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
+    video = models.FileField(blank=True, upload_to='videos/')
     content = models.TextField(max_length=2000)
     page_number = models.IntegerField(default=1)
 
