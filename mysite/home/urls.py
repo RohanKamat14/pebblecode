@@ -12,7 +12,11 @@ urlpatterns = [
     #Courses URl's
     path("search_courses", views.search_courses, name = 'search_courses'),
     path("courses", views.courses_view, name = 'courses'),
+
+    #acctal course 
     path("show_courses/<courses_id>", views.show_courses, name='show_courses'),
+    path("lesson/<int:product_id>", views.lesson_view, name='lesson'),
+    path("page/<page_id>", views.page, name='page'),
 
     #Categories Urls
     path('category/<str:cat>', views.category, name='category'),

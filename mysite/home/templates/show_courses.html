@@ -2,47 +2,15 @@
 {% load static %}
 {% block content %}
 
-<head>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-</head>
+<h1 class="text-white">{{ courses.name }}</h1>
+<p class="text-white">Category: {{ courses.category }}</p>
+<p class="text-white">Description: {{ courses.description }}</p>
 
-
-<center style="color: var(--light-text)">
-    <h1>Courses</h1>
-    {{ courses }}
-
-    <div class="card text-center" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">{{ courses }}</h5>
-            <p class="card-text">Would you like to add this class to my classes?</p>
-            <a href="{% url 'index' %}" class="btn btn-primary">Go Home</a>
-            <button type="button" value="{{ product.id }}" class="btn" id="add-cart">Add To Cart</button>
-        </div>
-    </div>
-</center>
-
-<script>
-// Check if button is pressed
-$(document).on('click', '#add-cart', function(e){
-    //if code is not working try #add-cart 
-    e.preventDefault();
-    jQuery.ajax({
-        type: 'POST',
-        url: '{% url 'my_add' %}',
-        data: {
-            product_id: $('#add-cart').val(),
-            csrfmiddlewaretoken: '{{ csrf_token }}', 
-            action: 'post'
-        },
-        success: function(json){
-            // Update course quantity display
-            document.getElementById("course_quantity").textContent = json.qty;
-        },
-        error: function(xhr, errmsg, err){
-            console.log("Error:", errmsg);
-        }
-    });
-});
-</script>
-
+<h2 class="text-white">Lessons:</h2>
+<ul>
+    {% for lesson in lessons %}
+    <li class="text-white"><a href="{% url 'lesson' lesson.id %}">Lesson ID: {{ lesson.id }}</a></li>
+    
+    {% endfor %}
+</ul>
 {% endblock content %}

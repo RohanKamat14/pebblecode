@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category,Lesson,Page
 from .forms import SignupUserForm
 from .cart import Cart
 from django.http import JsonResponse
@@ -60,10 +60,6 @@ def courses_view(request):
     courses_list = Product.objects.all()
     return render(request, 'courses.html', {'courses_list':courses_list})
 
-def show_courses(request, courses_id):   
-    courses = Product.objects.get(pk=courses_id)
-    return render(request, 'show_courses.html', {'courses':courses})
-
 def category(request, cat):
     cat = cat.replace('-', ' ')
     # Grab the category from the url
@@ -74,6 +70,20 @@ def category(request, cat):
     except:
         messages.success(request, ("That category dosn't exist"))
         return redirect('index')
+
+def show_courses(request, courses_id):   
+    courses = Product.objects.get(pk=courses_id)
+    lessons = courses.lessons.all()
+    return render(request, 'show_courses.html', {'courses':courses, 'lessons': lessons})
+
+def lesson_view(request, product_id):
+    lesson = get_object_or_404(Lesson, id=product_id)
+    pages = lesson.pages.all()
+    return render(request, 'lesson.html', {'lesson':lesson, 'pages': pages})
+
+def page(request, page_id):
+   page = get_object_or_404(Page, id=page_id)
+   return render(request, "page.html", {'page':page})
 
 def my_courses(request):
     cart = Cart(request)
