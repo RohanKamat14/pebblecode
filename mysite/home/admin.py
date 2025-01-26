@@ -1,15 +1,16 @@
 from django.contrib import admin
 import nested_admin
 from .models import (
-    Category, Customer, Product, Order, Course, Lesson, Page, Quiz, Question, Answer,
+    Category, Customer, Product, Order, Lesson, Page, Quiz, Question, Answer,
     Test, TestQuestion, TestAnswer
 )
 
+# Registering simple models directly
 admin.site.register(Category)
 admin.site.register(Customer)
-admin.site.register(Product)
 admin.site.register(Order)
 
+# Nested admin inlines
 class AnswerInline(nested_admin.NestedStackedInline):
     model = Answer
     extra = 1
@@ -28,15 +29,18 @@ class PageInline(nested_admin.NestedStackedInline):
     model = Page
     extra = 1
 
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'created_at']
+# Product admin customization
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'category']
 
+# Lesson admin with nested inlines
 @admin.register(Lesson)
 class LessonAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title', 'course', 'order']
     inlines = [PageInline, QuizInline]
 
+# Test admin and its related inlines
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestion
     extra = 1

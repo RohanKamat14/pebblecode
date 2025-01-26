@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1 class="text-white">Page Content</h1>
+
+<p class="text-white">{{ page.content }}</p>
+
+<p class="text-white">Associated Lesson ID: {{ page.lesson.id }}</p>
+
+
+{% endblock %}
