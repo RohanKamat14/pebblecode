@@ -16,6 +16,7 @@
 </head>
 
 <body class="container-primary">
+
   <!--Navbar-->
   <nav class="navbar navbar-expand-lg sticky-top border-bottom border-dark">
 
@@ -69,6 +70,17 @@
         <form action="{% url 'Signup' %}">
           <button class="btn my-2 nav-btn my-sm-0 border-0 me-1" type="submit" style="color: #EEEEEE;">  Sign Up</button>
         </form>
+
+        <!--SCRUM-15 User Profile Icon code-->
+          <a class="light-text" href="#" id="navbarDropdown"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-circle h3 light-text"></i>      
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="courses">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'my_courses' %}">My Courses</a></li>
+          </ul>
+        <!--SCRUM-15 User Profile Icon code END-->
         
       </div>
 
