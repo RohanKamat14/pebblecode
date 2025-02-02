@@ -2,10 +2,12 @@ body{
     background-color: var(--dark-primary);
   }
   :root {
-    --dark-primary: #222831;
+    --dark-primary:#222831;
     --light-primary: #393e46;
-    --dark-text: #00adb5;
+    --dark-text: #4705E0;
     --light-text: #EEEEEE;
+    --hightlighted-text: #ebb917;
+    
   }
   
   nav {
