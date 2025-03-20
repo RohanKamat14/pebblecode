@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 body{
+    font-family:'Poppins', sans-serif;
     background-color: var(--dark-primary);
   }
   :root {
@@ -6,7 +9,7 @@ body{
     --light-primary: #393e46;
     --dark-text: #4705E0;
     --light-text: #EEEEEE;
-    --hightlighted-text: #ebb917;
+    --hightlighted-text: #000;
     
   }
   
@@ -52,7 +55,16 @@ body{
       padding: 14px 16px;
       text-decoration: none;
     }
-  
+
+    .box {
+      width: 90%;
+      height: 80vh;
+      background-color:var(--dark-primary); 
+      border-radius: 10px; 
+      overflow-y: auto; 
+      outline-color: var(--light-primary);
+  }
+
     ul.topnav li a:hover:not(.active) {background-color: #111;}
     
     ul.topnav li a.active {background-color: #04AA6D;}

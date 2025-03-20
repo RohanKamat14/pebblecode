@@ -9,6 +9,11 @@
   .card-icon i {
     font-size: 3em;
   }
+
+  .card-header{
+    color: var(--hightlighted-text)
+  }
+
   .card {
     background-color: var(--light-primary);
     color: white;

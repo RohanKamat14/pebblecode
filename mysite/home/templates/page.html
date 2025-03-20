@@ -2,11 +2,34 @@
 {% load static %}
 {% block content %}
 
-<h1 class="text-white">Page Content</h1>
+<div class="container mt-4 text-white">
+    <h2 class="text-center">{{ page.title }}</h2>
+    <p class="text-center">{{ page.content }}</p>
 
-<p class="text-white">{{ page.content }}</p>
+    <!-- Page Navigation -->
+    <div class="d-flex justify-content-between align-items-center border p-3 rounded bg-dark mt-5">
+        {% if prev_page %}
+            <a href="{% url 'page' prev_page.id %}" class="btn btn-outline-light">
+                &#8592; Previous
+            </a>
+        {% else %}
+            <span class="btn btn-outline-secondary disabled">&#8592; Previous</span>
+        {% endif %}
 
-<p class="text-white">Associated Lesson ID: {{ page.lesson.id }}</p>
+        <span>Page {{ current_index }} of {{ total_pages }}</span>
 
+        {% if next_page %}
+            <a href="{% url 'page' next_page.id %}" class="btn btn-outline-light">
+                Next &#8594;
+            </a>
+        {% elif quiz %}  
+            <a href="{% url 'quiz' quiz.id %}" class="btn btn-success">
+                Take Quiz &#9997;
+            </a>
+        {% else %}
+            <span class="btn btn-outline-secondary disabled">Next &#8594;</span>
+        {% endif %}
+    </div>
+</div>
 
-{% endblock %}
+{% endblock content %}

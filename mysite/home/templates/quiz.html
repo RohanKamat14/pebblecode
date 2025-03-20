@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/my_course.css' %}">
+</head>
+
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="box p-4 bg-dark text-white rounded shadow-lg" style="width: 90%; height: 80vh; overflow-y: auto; border: 2px solid #393e46;">
+        
+        <!-- Quiz Title & Description -->
+        <h1 class="text-white text-center">{{ quiz.title }}</h1>
+        <p class="text-white text-center">{{ quiz.description }}</p>
+        
+        <!-- Quiz Form -->
+        <form method="POST" class="mt-4">
+            {% csrf_token %}
+            
+            {% for question in questions %}
+                <div class="mb-4">
+                    <h3 class="text-white">{{ question.text }}</h3>
+                    <ul class="list-unstyled">
+                        {% for answer in question.answers.all %}
+                            <li class="form-check">
+                                <input type="radio" id="answer_{{ answer.id }}" name="question_{{ question.id }}" value="{{ answer.id }}" class="form-check-input">
+                                <label for="answer_{{ answer.id }}" class="form-check-label">{{ answer.text }}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Submit Quiz</button>
+            </div>
+        </form>
+    
+    </div>
+</div>
+
+{% endblock content %}

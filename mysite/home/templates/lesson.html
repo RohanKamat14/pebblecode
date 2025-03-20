@@ -1,14 +1,30 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
-<h1 class="text-white">Lesson: {{ lesson.title }}</h1>
-<p class="text-white">Associated Product ID: {{ lesson.product.id }}</p>
+<head>
+    <link rel="stylesheet" href="{% static 'css/my_course.css' %}">
+</head>
 
-<h2 class="text-white">Pages:</h2>
-<ul>
-    {% for page in pages %}
-    <li><a href="{% url 'page' page.id %}">Page ID: {{ page.id }}</a></li>
-    {% endfor %}
-</ul>
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="box p-4 position-relative">
+        <!-- Left-Aligned Content -->
+        <h1 class="text-white">Lesson: {{ lesson.title }} {{lesson.order}}</h1>
+        <p class="text-white">Preview: {{ lesson.preview_text }}</p>
+        
+        <!-- Video Box (Top-Right) -->
+        <div class="video-box">
+            <video width="100%" height="100%" controls>
+                <source src="{% static 'videos/sample.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Resume Button (Bottom-Right) -->
+        <div class="resume-btn">
+            <a href="{% url 'page' first_page.id %}" class="btn btn-primary">Start</a>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

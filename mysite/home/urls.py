@@ -17,6 +17,9 @@ urlpatterns = [
     path("show_courses/<courses_id>", views.show_courses, name='show_courses'),
     path("lesson/<int:product_id>", views.lesson_view, name='lesson'),
     path("page/<page_id>", views.page, name='page'),
+    path("quiz/<quiz_id>", views.quiz_view, name='quiz'),
+    path("test/<test_id>", views.test_view, name='test'),
+
 
     #Categories Urls
     path('category/<str:cat>', views.category, name='category'),

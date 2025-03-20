@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/my_course.css' %}">
+</head>
+
+<div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+    <div class="box p-4 bg-dark text-white rounded shadow-lg" style="width: 90%; height: 80vh; overflow-y: auto; border: 2px solid #393e46;">
+        
+        <!-- Quiz Results Header -->
+        <h2 class="text-center text-white">Quiz Results</h2>
+        <p class="text-center">Correct Answers: <strong>{{ score }}</strong></p>
+        <p class="text-center">Wrong Answers: <strong>{{ wrong_answers }}</strong></p>
+
+        <hr class="bg-light">
+
+        <!-- Display Questions and Answers -->
+        {% for question in questions %}
+            <div class="mb-4">
+                <h3 class="{% if question.id in wrong_question_ids %}text-danger{% else %}text-white{% endif %}">
+                    {{ question.text }}
+                </h3>
+                <p>Correct Answer: 
+                    {% for answer in question.answers.all %}
+                        {% if answer.is_correct %}
+                            <strong class="text-success">{{ answer.text }}</strong>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <hr class="bg-light">
+        {% endfor %}
+
+        <!-- Button to Retake Quiz or Go Back -->
+        <div class="text-center mt-4">
+            <a href="{% url 'quiz' quiz.id %}" class="btn btn-warning">Retake Quiz</a>
+            <a href="{% url 'lesson' quiz.lesson.id %}" class="btn btn-light">Back to Lesson</a>
+        </div>
+    
+    </div>
+</div>
+
+{% endblock content %}
