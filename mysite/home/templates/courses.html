@@ -2,6 +2,38 @@
 {% load static %}
 {% block content %}
 
+<head>
+    
+    <link rel="stylesheet" href="{% static 'css/courses.css' %}">
+    
+    
+  
+    
+    
+</head>
 
+
+    {% for courses in courses_list %}
+
+<div class=" container">
+  <div class="col m-1 p-3 rounded ">
+      <div class="card" style="width: 18rem; height: 24rem;">
+        <div class="card-top">
+          <h5 class="card-header">Recommended</h5>
+        </div>
+        <div class="card-icon text-center">
+          <i class="bi bi-circle"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ courses.name }}</h5>
+          <p class="card-text">{{ courses.description }}</p>
+          <a href="{% url 'show_courses' courses.id %}" class="btn border light-text stretched-link">{{ courses.category }}</a>
+        </div>
+      </div>
+    </div>
+</div>        
+
+    {% endfor %}
+    
 
 {% endblock content %}

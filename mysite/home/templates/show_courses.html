@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1 class="text-white">{{ courses.name }}</h1>
+<p class="text-white">Category: {{ courses.category }}</p>
+<p class="text-white">Description: {{ courses.description }}</p>
+
+<h2 class="text-white">Lessons:</h2>
+<ul>
+    {% for lesson in lessons %}
+    <li class="text-white"><a href="{% url 'lesson' lesson.id %}">Lesson ID: {{ lesson.id }}</a></li>
+    
+    {% endfor %}
+</ul>
+{% endblock content %}

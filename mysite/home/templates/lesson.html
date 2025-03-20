@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1 class="text-white">Lesson: {{ lesson.title }}</h1>
+<p class="text-white">Associated Product ID: {{ lesson.product.id }}</p>
+
+<h2 class="text-white">Pages:</h2>
+<ul>
+    {% for page in pages %}
+    <li><a href="{% url 'page' page.id %}">Page ID: {{ page.id }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}
