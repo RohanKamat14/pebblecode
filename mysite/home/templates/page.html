@@ -1,10 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block content %}
 
 <div class="container mt-4 text-white">
     <h2 class="text-center">{{ page.title }}</h2>
-    <p class="text-center">{{ page.content }}</p>
+    
+    <!-- Loop through paragraphs related to the page -->
+    {% for paragraph in page.paragraphs.all %}
+        <div class="paragraph">
+            <h4>{{ paragraph.header }}</h4>
+            <div class="content">
+                {{ paragraph.content|safe }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <!-- Loop through videos related to the page -->
+    {% for video in page.videos.all %}
+        <div class="video">
+            <h5>{{ video.title }}</h5>
+            {% if video.uploaded_video %}
+                <video width="100%" controls>
+                    <source src="{{ video.uploaded_video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% elif video.video_url %}
+                <a href="{{ video.video_url }}" target="_blank">Watch video</a>
+            {% else %}
+                <p>No video available</p>
+            {% endif %}
+        </div>
+    {% endfor %}
 
     <!-- Page Navigation -->
     <div class="d-flex justify-content-between align-items-center border p-3 rounded bg-dark mt-5">

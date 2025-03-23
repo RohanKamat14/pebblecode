@@ -1,4 +1,6 @@
 from django.db import models
+from ckeditor.fields import RichTextField
+from django.core.exceptions import ValidationError
 import datetime
 
 # Categories of classes
@@ -50,16 +52,34 @@ class Lesson(models.Model):
     def __str__(self):
         return f"{self.title} - {self.course.name}"
 
+#Page Models
 
 class Page(models.Model):
     lesson = models.ForeignKey(Lesson, related_name='pages', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    video = models.FileField(blank=True, upload_to='videos/')
-    content = models.TextField(max_length=2000)
     page_number = models.IntegerField(default=1)
 
     def __str__(self):
         return f"Page {self.page_number}: {self.title} - {self.lesson.title}"
+    
+class Paragraph(models.Model):
+    page = models.ForeignKey(Page, related_name="paragraphs", on_delete=models.CASCADE)
+    header = models.CharField(max_length=225, blank=True, null=True)
+    content = RichTextField()
+
+    def __str__(self):
+        return self.header if self.header else f"Paragraph {self.id}"
+    
+class Video(models.Model):
+    page = models.ForeignKey(Page, related_name="videos", on_delete=models.CASCADE)
+    title = models.CharField(max_length=225, blank=True, null=True)
+    video_url = models.URLField(blank=True, null=True) 
+    uploaded_video = models.FileField(upload_to="videos/", blank=True, null=True)
+
+    def __str__(self):
+        return self.title if self.title else f"Video {self.id}"
+    
+# End of page realated or inline models
 
 
 # Quiz and Test Models

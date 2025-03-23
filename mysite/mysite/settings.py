@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     "nested_admin",
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -119,5 +120,16 @@ STATICFILES_DIRS = [
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'extraPlugins': ','.join([
+            'colorbutton',  # Enables text color and background color
+            'font',         # Allows changing font styles
+        ]),
+        'allowedContent': True,  # Ensures CKEditor allows color changes
+    }
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

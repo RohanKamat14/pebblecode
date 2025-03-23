@@ -1,7 +1,7 @@
 from django.contrib import admin
 import nested_admin
 from .models import (
-    Category, Customer, Product, Order, Lesson, Page, Quiz, Question, Answer,
+    Category, Customer, Product, Order, Lesson, Page, Paragraph, Video, Quiz, Question, Answer,
     Test, TestQuestion, TestAnswer
 )
 
@@ -29,18 +29,29 @@ class PageInline(nested_admin.NestedStackedInline):
     model = Page
     extra = 1
 
-# Product admin customization
+class ParagraphInline(nested_admin.NestedStackedInline):  
+    model = Paragraph
+    extra = 1
+
+class VideoInline(nested_admin.NestedStackedInline):  
+    model = Video
+    extra = 0
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'category']
 
-# Lesson admin with nested inlines
 @admin.register(Lesson)
 class LessonAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title', 'course', 'order']
     inlines = [PageInline, QuizInline]
 
-# Test admin and its related inlines
+@admin.register(Page)
+class PageAdmin(nested_admin.NestedModelAdmin):
+    list_display = ['title']
+    inlines = [ParagraphInline, VideoInline]
+
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestion
     extra = 1
