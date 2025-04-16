@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
-from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion
+from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion,Profile
 from .forms import SignupUserForm
 from .cart import Cart
 from django.http import JsonResponse
@@ -200,3 +200,7 @@ def my_delete():
 
 def my_update():
     pass
+
+def profile_courses(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    return render(request, "profile_course_listings.html", {'profile': profile})

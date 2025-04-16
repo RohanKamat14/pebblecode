@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 import nested_admin
+
 from .models import (
-    Category, Customer, Product, Order, Lesson, Page, Paragraph, Video, Quiz, Question, Answer,
-    Test, TestQuestion, TestAnswer
+    Category, Customer, Product, Order, Lesson, Page, Paragraph, Video, Quiz,
+    Question, Answer, Test, TestQuestion, TestAnswer, Profile
 )
 
 # Registering simple models directly
@@ -10,7 +13,31 @@ admin.site.register(Category)
 admin.site.register(Customer)
 admin.site.register(Order)
 
-# Nested admin inlines
+# ======================
+# Profile Inline for User
+# ======================
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Profile'
+
+# Unregister original User admin and re-register with Profile inline
+admin.site.unregister(User)
+
+@admin.register(User)
+class CustomUserAdmin(BaseUserAdmin):
+    inlines = [ProfileInline]
+
+# ======================
+# Product Admin
+# ======================
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ['name', 'category']
+
+# ======================
+# Lesson Admin with nested content
+# ======================
 class AnswerInline(nested_admin.NestedStackedInline):
     model = Answer
     extra = 1
@@ -37,11 +64,6 @@ class VideoInline(nested_admin.NestedStackedInline):
     model = Video
     extra = 0
 
-
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category']
-
 @admin.register(Lesson)
 class LessonAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title', 'course', 'order']
@@ -52,6 +74,9 @@ class PageAdmin(nested_admin.NestedModelAdmin):
     list_display = ['title']
     inlines = [ParagraphInline, VideoInline]
 
+# ======================
+# Test Admin
+# ======================
 class TestQuestionInline(admin.TabularInline):
     model = TestQuestion
     extra = 1

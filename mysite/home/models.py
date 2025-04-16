@@ -1,6 +1,8 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 import datetime
 
 # Categories of classes
@@ -31,6 +33,25 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
+
+#user profile 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    description = models.ManyToManyField(Product, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+    
+#create new profile when New User Sign up
+
+
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        user_profile = Profile(user=instance)
+        user_profile.save()
+
+post_save.connect(create_profile, sender=User)
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

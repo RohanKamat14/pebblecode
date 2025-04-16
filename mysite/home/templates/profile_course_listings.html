@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-dark text-white shadow-lg p-4 rounded" style="min-height: 300px;">
+        <h1 class="mb-4 text-center">{{ profile.user.username }}'s Courses</h1>
+
+        {% if profile.description.all %}
+            <ul class="list-group list-group-flush">
+                {% for product in profile.description.all %}
+                    <li class="list-group-item bg-dark text-white border-white">
+                        <strong>{{ product.name }}</strong><br>
+                        <small>{{ product.description }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="d-flex flex-column justify-content-center align-items-center h-100">
+                <p class="text-white text-center mb-3">No courses enrolled yet.</p>
+                <a href="{% url 'courses' %}" class="btn btn-outline-light">Browse Courses</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

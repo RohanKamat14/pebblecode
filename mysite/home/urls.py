@@ -31,4 +31,7 @@ urlpatterns = [
     path('delete', views.my_delete, name="my_delete" ),
     path('update', views.my_update, name="my_update" ),
 
+    #profile/user 
+    path('profile_course_listings', views.profile_courses, name="profile_courses")
+
 ]
