@@ -202,5 +202,16 @@ def my_update():
     pass
 
 def profile_courses(request):
-    profile = get_object_or_404(Profile, user=request.user)
-    return render(request, "profile_course_listings.html", {'profile': profile})
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        return render(request, "profile_course_listings.html", {'profile': profile})
+    else:
+        messages.success(request, ("You Must Be Logged In To Access Profile Page"))
+        return redirect('Signup')
+def profile(request):
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user)
+        return render(request, "profile.html", {"profile":profile})
+    else:
+        messages.success(request, ("You Must Be Logged In To Access Profile Page"))
+        return redirect('Signup')
