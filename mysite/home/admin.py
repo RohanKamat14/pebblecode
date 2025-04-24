@@ -5,7 +5,7 @@ import nested_admin
 
 from .models import (
     Category, Customer, Product, Order, Lesson, Page, Paragraph, Video, Quiz,
-    Question, Answer, Test, TestQuestion, TestAnswer, Profile
+    Question, Answer, Test, TestQuestion, TestAnswer, Profile, Enrollment
 )
 
 # Registering simple models directly
@@ -16,12 +16,24 @@ admin.site.register(Order)
 # ======================
 # Profile Inline for User
 # ======================
+class EnrollmentInline(admin.TabularInline):
+    model = Enrollment
+    extra = 1
+    fields = ('course', 'progress', 'quiz_score', 'test_score', 'overall_score', 'completed', 'badge', 'certificate_url')
+
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
     verbose_name_plural = 'Profile'
+    inlines = [EnrollmentInline]
 
 # Unregister original User admin and re-register with Profile inline
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    inlines = [EnrollmentInline]
+    list_display = ('user',)
+
+
 admin.site.unregister(User)
 
 @admin.register(User)

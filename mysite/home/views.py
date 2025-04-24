@@ -5,10 +5,11 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
-from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion,Profile
+from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion, Profile, Enrollment
 from .forms import SignupUserForm
 from .cart import Cart
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_protect
 
 def index(request):
     template = loader.get_template('index.html')
@@ -55,10 +56,32 @@ def search_courses(request):
         return render(request, 'search_courses.html', {'searched':searched, 'courses' : courses})
     else:
         return render(request, 'search_courses.html', {})
-    
-def courses_view(request):
+
+@csrf_protect
+def courses_view(request): 
     courses_list = Product.objects.all()
-    return render(request, 'courses.html', {'courses_list':courses_list})
+
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            profile = get_object_or_404(Profile, user=request.user)
+
+            action = request.POST.get('action')
+            course_id = request.POST.get('course_id')
+
+            if action == "enroll" and course_id:
+                try:
+                    course = Product.objects.get(id=course_id)
+                    profile.enrolled_courses.add(course)
+                    profile.save()
+                except Product.DoesNotExist:
+                    pass  # You could log or handle this case
+
+            elif action == 'resume':
+                # Logic for resuming could go here
+                pass
+
+    return render(request, 'courses.html', {'courses_list': courses_list})
+
 
 def category(request, cat):
     cat = cat.replace('-', ' ')
@@ -204,10 +227,18 @@ def my_update():
 def profile_courses(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
-        return render(request, "profile_course_listings.html", {'profile': profile})
+
+        # Get enrollments and include related course
+        enrollments = Enrollment.objects.filter(user_profile=profile).select_related('course')
+
+        return render(request, "profile_course_listings.html", {
+            'profile': profile,
+            'enrollments': enrollments
+        })
     else:
         messages.success(request, ("You Must Be Logged In To Access Profile Page"))
         return redirect('Signup')
+    
 def profile(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)

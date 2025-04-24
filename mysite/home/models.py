@@ -38,7 +38,7 @@ class Product(models.Model):
 #user profile 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    description = models.ManyToManyField(Product, blank=True)
+    enrolled_courses = models.ManyToManyField(Product, through='Enrollment')
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
@@ -52,6 +52,26 @@ def create_profile(sender, instance, created, **kwargs):
         user_profile.save()
 
 post_save.connect(create_profile, sender=User)
+
+class Enrollment(models.Model):
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    course = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    # Tracking fields
+    progress = models.FloatField(default=0.0)  
+    quiz_score = models.FloatField(default=0.0)
+    test_score = models.FloatField(default=0.0)
+    overall_score = models.FloatField(default=0.0)  
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+
+    # Badges and certificates
+    badge = models.CharField(max_length=100, blank=True, null=True)
+    certificate_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user_profile.user.username} - {self.course.name}"
+
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

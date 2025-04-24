@@ -24,9 +24,17 @@
 
 
         <!-- Resume Button (Bottom-Right) -->
-        <div class="resume-btn">
-            <button class="btn btn-primary">Resume</button>
-        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="enroll">
+            <input type="hidden" name="course_id" value="{{ courses.id }}">
+            {% if courses not in user.profile.enrolled_courses.all %}
+                <button class="btn btn-outline-success" type="submit">Enroll in {{ courses.name }}</button>
+            {% else %}
+                <button class="btn btn-primary" name="action" value="resume">Resume</button>
+            {% endif %}
+        </form>
+
     </div>
 </div>
 
