@@ -15,6 +15,8 @@ urlpatterns = [
 
     #acctal course 
     path("show_courses/<courses_id>", views.show_courses, name='show_courses'),
+    path('enrollmentpopup/<int:course_id>/', views.enrollmentpopup, name='enrollmentpopup'),
+    path('enroll/<int:course_id>/', views.enroll_course, name='enroll_course'),
     path("lesson/<int:product_id>", views.lesson_view, name='lesson'),
     path("page/<page_id>", views.page, name='page'),
     path("quiz/<quiz_id>", views.quiz_view, name='quiz'),

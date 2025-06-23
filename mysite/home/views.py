@@ -4,6 +4,7 @@ from django.template import loader
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion, Profile, Enrollment
 from .forms import SignupUserForm
@@ -98,6 +99,24 @@ def show_courses(request, courses_id):
     courses = Product.objects.get(pk=courses_id)
     lessons = courses.lessons.all()
     return render(request, 'show_courses.html', {'courses':courses, 'lessons': lessons})
+
+@login_required
+def enrollmentpopup(request, course_id):
+    course = get_object_or_404(Product, id=course_id)
+    return render(request, 'enrollmentpopup.html', {'course': course})
+
+def enroll_course(request, course_id):
+
+    profile = request.user.profile
+    course = get_object_or_404(Product, id=course_id)
+
+    # Create enrollment 
+    enrollment, created = Enrollment.objects.get_or_create(user_profile=profile, course=course)
+
+    # Redirect to first lesson
+    first_lesson = course.lessons.first()
+    return redirect("lesson", product_id=first_lesson.id if first_lesson else course.id)
+    
 
 def lesson_view(request, product_id):
     lesson = get_object_or_404(Lesson, id=product_id)

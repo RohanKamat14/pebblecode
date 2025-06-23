@@ -71,6 +71,33 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.user_profile.user.username} - {self.course.name}"
+    
+    
+class ContentCount(models.Model):
+    CONTENT_TYPES = [
+        ('page','Pages'),
+        ('quiz', 'Quiz'),
+        ('test', 'Test'),
+
+    ]
+
+    course = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=70)
+    content_type = models.CharField(max_length=10, choices=CONTENT_TYPES)
+    order = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.course.name} - {self.title} ({self.content_type})"
+    
+
+class UserProgress(models.Model):
+    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('enrollment', 'content')
 
 
 class Order(models.Model):
@@ -149,7 +176,15 @@ class Answer(models.Model):
     def __str__(self):
         return f"Answer: {self.text} (Correct: {self.is_correct})"
 
+class QuizSubmission(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    score = models.FloatField()
+    submitted_time = models.DateTimeField(auto_now_add=True)
 
+class Meta:
+    unique_together = ('profile', 'content')
+    
 class Test(models.Model):
     course = models.ForeignKey(Product, related_name='tests', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -174,3 +209,12 @@ class TestAnswer(models.Model):
 
     def __str__(self):
         return f"Test Answer: {self.text} (Correct: {self.is_correct})"
+    
+class TestSubmission(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    score = models.FloatField()
+    submitted_time = models.DateTimeField(auto_now_add=True)
+
+class Meta:
+    unique_together = ('profile', 'content')
