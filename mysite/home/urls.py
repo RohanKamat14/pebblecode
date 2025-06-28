@@ -35,5 +35,7 @@ urlpatterns = [
 
     #profile/user 
     path('profile_course_listings', views.profile_courses, name="profile_courses"),
+    path('disenrollmentpopup/<int:course_id>/', views.disenrollmentpopup, name='disenrollmentpopup'),
+    path('disenroll/<int:course_id>/', views.disenroll_course, name='disenroll_course'),
     path('profile', views.profile, name="profile"),
 ]

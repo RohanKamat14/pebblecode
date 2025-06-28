@@ -258,6 +258,26 @@ def profile_courses(request):
         messages.success(request, ("You Must Be Logged In To Access Profile Page"))
         return redirect('Signup')
     
+@login_required
+def disenrollmentpopup(request, course_id):
+    profile = get_object_or_404(Profile, user=request.user)
+    course = get_object_or_404(Product, id=course_id)
+
+    return render(request, "disenrollmentpopup.html", {
+        'profile': profile,
+        'course': course
+    })
+
+@login_required
+def disenroll_course(request, course_id):
+    profile = get_object_or_404(Profile, user=request.user)
+    course = get_object_or_404(Product, id=course_id)
+    enrollment = get_object_or_404(Enrollment, user_profile=profile, course=course)
+
+    if request.method == 'POST':
+        enrollment.delete()
+        return redirect('index')
+
 def profile(request):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
