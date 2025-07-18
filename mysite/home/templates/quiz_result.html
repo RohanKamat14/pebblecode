@@ -13,6 +13,23 @@
         <h2 class="text-center text-white">Quiz Results</h2>
         <p class="text-center">Correct Answers: <strong>{{ score }}</strong></p>
         <p class="text-center">Wrong Answers: <strong>{{ wrong_answers }}</strong></p>
+        <p class="text-center" hx-get="Percentage"
+        hx-trigger="load" hx-target="#my_testscores">Percentage Score: <strong>{{ percent }}</strong></p>
+
+        <!-- Quiz score post form-->
+
+        <form
+        
+            id="submit-score-form"
+            hx-post="{% url 'save_quiz_score' %}"
+            hx-trigger="load"
+            hx-swap="none">
+            
+            {% csrf_token %}
+            <input type="hidden" name="score" value="{{ percent }}">
+            <input type="hidden" name="content_id" value="{{ quiz.content.id }}">  <!-- Make sure quiz has content -->
+
+        </form>
 
         <hr class="bg-light">
 

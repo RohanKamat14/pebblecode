@@ -13,13 +13,18 @@ urlpatterns = [
     path("search_courses", views.search_courses, name = 'search_courses'),
     path("courses", views.courses_view, name = 'courses'),
 
-    #acctal course 
+    #actual course 
     path("show_courses/<courses_id>", views.show_courses, name='show_courses'),
     path('enrollmentpopup/<int:course_id>/', views.enrollmentpopup, name='enrollmentpopup'),
     path('enroll/<int:course_id>/', views.enroll_course, name='enroll_course'),
     path("lesson/<int:product_id>", views.lesson_view, name='lesson'),
     path("page/<page_id>", views.page, name='page'),
+
+    #quiz URLs
     path("quiz/<quiz_id>", views.quiz_view, name='quiz'),
+    path('save_quiz_score', views.save_quiz_score, name='save_quiz_score'),
+
+    #test URLS
     path("test/<test_id>", views.test_view, name='test'),
 
 

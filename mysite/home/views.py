@@ -6,11 +6,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion, Profile, Enrollment
+from .models import Product, Category,Lesson,Page, Quiz, Question, Answer, Test, TestAnswer, TestQuestion, Profile, Enrollment,ContentCount, QuizSubmission
 from .forms import SignupUserForm
 from .cart import Cart
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 def index(request):
     template = loader.get_template('index.html')
@@ -166,6 +166,7 @@ def quiz_view(request, quiz_id):
                     wrong_question_ids.append(question.id)
 
         score = total_questions - wrong_answers
+        percent = round((score/total_questions) * 100, 2)
 
        
         next_lesson = Lesson.objects.filter(id__gt=current_lesson.id).order_by('id').first()
@@ -176,6 +177,7 @@ def quiz_view(request, quiz_id):
             'wrong_answers': wrong_answers,
             'score': score,
             'wrong_question_ids': wrong_question_ids,
+            'percent':percent,
             'next_lesson': next_lesson  
         })
 
@@ -183,6 +185,25 @@ def quiz_view(request, quiz_id):
         'quiz': quiz,
         'questions': questions,
     })
+
+def save_quiz_score(request):
+    if request.method == "POST":
+        profile = request.user.profile
+        score = request.POST.get('score')
+        content_id = request.POST.get('content.id')
+
+        if not score or not content_id:
+            return JsonResponse({'error': 'Missing Data'}, status=400)
+        
+        content = get_object_or_404(ContentCount, id=content_id)
+
+        QuizSubmission.objects.create(
+            profile=profile,
+            content=content,
+            score=float(score)
+        )
+        return JsonResponse({'message': 'Score Saved!'})
+    return JsonResponse({'error': 'invalid reponse'}, status=405)
 
 def test_view(request, test_id):
     test = get_object_or_404(Test, id=test_id)

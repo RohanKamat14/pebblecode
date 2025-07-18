@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.dispatch import receiver
 from django.db.models.signals import post_save
 import datetime
 
@@ -78,6 +79,7 @@ class ContentCount(models.Model):
         ('page','Pages'),
         ('quiz', 'Quiz'),
         ('test', 'Test'),
+        ('video', 'Video'),
 
     ]
 
@@ -92,7 +94,7 @@ class ContentCount(models.Model):
 
 class UserProgress(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
     completed = models.BooleanField(default=False)
     completed_at = models.DateTimeField(auto_now_add=True)
 
@@ -126,10 +128,11 @@ class Page(models.Model):
     lesson = models.ForeignKey(Lesson, related_name='pages', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     page_number = models.IntegerField(default=1)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Page {self.page_number}: {self.title} - {self.lesson.title}"
-    
+   
 class Paragraph(models.Model):
     page = models.ForeignKey(Page, related_name="paragraphs", on_delete=models.CASCADE)
     header = models.CharField(max_length=225, blank=True, null=True)
@@ -155,6 +158,7 @@ class Quiz(models.Model):
     lesson = models.ForeignKey(Lesson, related_name='quizzes', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Quiz: {self.title} - {self.lesson.title}"
@@ -178,17 +182,18 @@ class Answer(models.Model):
 
 class QuizSubmission(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
     score = models.FloatField()
     submitted_time = models.DateTimeField(auto_now_add=True)
 
-class Meta:
-    unique_together = ('profile', 'content')
+    class Meta:
+        unique_together = ('profile', 'content')
     
 class Test(models.Model):
     course = models.ForeignKey(Product, related_name='tests', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Test: {self.title} - {self.course.name}"
@@ -212,9 +217,9 @@ class TestAnswer(models.Model):
     
 class TestSubmission(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE)
+    content = models.ForeignKey(ContentCount, on_delete=models.CASCADE, null=True, blank=True)
     score = models.FloatField()
     submitted_time = models.DateTimeField(auto_now_add=True)
 
-class Meta:
-    unique_together = ('profile', 'content')
+    class Meta:
+        unique_together = ('profile', 'content')
